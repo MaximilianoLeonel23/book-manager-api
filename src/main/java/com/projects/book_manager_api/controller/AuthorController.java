@@ -1,6 +1,7 @@
 package com.projects.book_manager_api.controller;
 
 import com.projects.book_manager_api.dto.AuthorResponseDTO;
+import com.projects.book_manager_api.model.Author;
 import com.projects.book_manager_api.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,5 +29,25 @@ public class AuthorController {
     ) {
         List<AuthorResponseDTO> authors = authorService.getAuthors(name, surname, fromDate, toDate);
         return ResponseEntity.ok(authors);
+    }
+
+    @GetMapping("/multipleBooks")
+    public ResponseEntity<List<AuthorResponseDTO>> getAuthorsWithMultipleBooks() {
+        List<AuthorResponseDTO> authors = authorService.getAuthorsWithMultipleBooks();
+        if (!authors.isEmpty()) {
+            return ResponseEntity.ok(authors);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/availableBooks")
+    public ResponseEntity<List<AuthorResponseDTO>> getAuthorsWithAvailableBooks() {
+        List<AuthorResponseDTO> authors = authorService.getAuthorsWithAvailableBooks();
+        if (!authors.isEmpty()) {
+            return ResponseEntity.ok(authors);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

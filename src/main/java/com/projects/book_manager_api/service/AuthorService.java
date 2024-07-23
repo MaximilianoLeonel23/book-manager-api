@@ -56,4 +56,24 @@ public class AuthorService {
                 a.getBirthday()
         )).collect(Collectors.toList());
     }
+
+    public List<AuthorResponseDTO> getAuthorsWithMultipleBooks() {
+        List<Author> authors = authorRepository.findAuthorWithMultipleBooks();
+        return authors.stream().map(author -> new AuthorResponseDTO(
+                author.getId(),
+                author.getName(),
+                author.getSurname(),
+                author.getBirthday()
+        )).collect(Collectors.toList());
+    }
+
+    public List<AuthorResponseDTO> getAuthorsWithAvailableBooks() {
+        List<Author> authors = authorRepository.findAuthorWithAvailableBooks();
+        return authors.stream().map(author -> new AuthorResponseDTO(
+                author.getId(),
+                author.getName(),
+                author.getSurname(),
+                author.getBirthday()
+        )).collect(Collectors.toList());
+    }
 }
