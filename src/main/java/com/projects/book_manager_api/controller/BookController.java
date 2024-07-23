@@ -1,8 +1,10 @@
 package com.projects.book_manager_api.controller;
 
+import com.projects.book_manager_api.dto.BookDetailedResponseDTO;
 import com.projects.book_manager_api.dto.BookResponseDTO;
 import com.projects.book_manager_api.model.Book;
 import com.projects.book_manager_api.model.Status;
+import com.projects.book_manager_api.repository.AuthorRepository;
 import com.projects.book_manager_api.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,5 +38,18 @@ public class BookController {
         } else {
             return ResponseEntity.ok(books);
         }
+    }
+
+    @GetMapping("/available")
+    public ResponseEntity<BookDetailedResponseDTO> getBookByAvailabilityAndISBN(
+            @RequestParam String isbn
+    ) {
+        BookDetailedResponseDTO book = bookService.findBookByISBNAndAvailable(isbn);
+        if (book != null) {
+            return ResponseEntity.ok(book);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 }

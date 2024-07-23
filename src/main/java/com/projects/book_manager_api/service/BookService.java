@@ -1,5 +1,7 @@
 package com.projects.book_manager_api.service;
 
+import com.projects.book_manager_api.dto.AuthorResponseDTO;
+import com.projects.book_manager_api.dto.BookDetailedResponseDTO;
 import com.projects.book_manager_api.dto.BookResponseDTO;
 import com.projects.book_manager_api.model.Author;
 import com.projects.book_manager_api.model.Book;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,7 +72,8 @@ public class BookService {
             authorSubquery.where(authorPredicates.toArray(new Predicate[0]));
 
             predicates.add(book.get("author").get("id").in(authorSubquery));
-        };
+        }
+        ;
 
 
         if (status != null) {
@@ -96,5 +100,34 @@ public class BookService {
                 b.getPublishedYear()
         )).collect(Collectors.toList());
 
+    }
+
+    public BookDetailedResponseDTO findBookByISBNAndAvailable(String isbn) {
+        Optional<Book> bookFound = bookRepository.findBookByISBNAndAvailable(isbn);
+        if (bookFound.isPresent()) {
+            Optional<Author> author = authorRepository.findById(bookFound.get().getAuthor().getId());
+            if (author.isPresent()) {
+                return bookFound.map(
+                        book -> new BookDetailedResponseDTO(
+                                book.getId(),
+                                book.getTitle(),
+                                book.getIsbn(),
+                                new AuthorResponseDTO(
+                                        author.get().getId(),
+                                        author.get().getName(),
+                                        author.get().getSurname(),
+                                        author.get().getBirthday()
+                                ),
+                                book.getStatus(),
+                                book.getPublishedYear()
+                        )
+                ).get();
+            } else {
+                return null;
+            }
+        }
+        else {
+            return null;
+        }
     }
 }
