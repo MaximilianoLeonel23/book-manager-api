@@ -28,5 +28,5 @@ public class Loan {
     private LocalDate borrowDate;
     @Column(name = "return_date")
     private LocalDate returnDate;
-
+    private Boolean active;
 }
