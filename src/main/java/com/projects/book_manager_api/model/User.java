@@ -24,6 +24,7 @@ public class User {
     @Email
     private String email;
     private String password;
+
     @OneToMany(mappedBy = "user")
     private List<Loan> borrowedBooks;
 }

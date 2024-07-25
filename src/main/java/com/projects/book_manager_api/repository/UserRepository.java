@@ -17,4 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE (SELECT COUNT(l) from Loan l WHERE l.user.id = u.id) >= :numberLoans")
     List<User> getUsersByNumberOfLoans(Integer numberLoans);
+
+    @Query("SELECT u FROM User u JOIN u.borrowedBooks l WHERE l.book.id = :bookId")
+    List<User> getUsersBySpecificBook(Integer bookId);
 }

@@ -62,4 +62,29 @@ public class LoanController {
         }
     }
 
+    @GetMapping("/byUserAndBorrowDateRange")
+    public ResponseEntity<List<LoanResponseDTO>> getLoanByUserAndBorrowDateRange(
+            @RequestParam Long userId,
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate
+    ) {
+        List<LoanResponseDTO> loanList = loanService.getLoanByUserAndBorrowDateRange(userId, startDate, endDate);
+        if (loanList.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(loanList);
+        }
+    }
+
+    @GetMapping("/byBookAndActive")
+    public ResponseEntity<List<LoanResponseDTO>> getLoansActiveByBook(
+            @RequestParam Long bookId
+    ) {
+        List<LoanResponseDTO> loanList = loanService.getLoansActiveByBook(bookId);
+        if (loanList.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(loanList);
+        }
+    }
 }

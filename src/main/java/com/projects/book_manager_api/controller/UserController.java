@@ -41,4 +41,16 @@ public class UserController {
             return ResponseEntity.ok(userList);
         }
     }
+
+    @GetMapping("/bySpecificBook")
+    public ResponseEntity<List<UserResponseDTO>> getUsersBySpecificBook(
+            @RequestParam Integer bookId
+    ) {
+        List<UserResponseDTO> userList = userService.getUsersBySpecificBook(bookId);
+        if (userList.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(userList);
+        }
+    }
 }

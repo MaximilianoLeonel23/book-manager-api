@@ -63,4 +63,28 @@ public class LoanService {
                 l.getActive()
         )).collect(Collectors.toList());
     }
+
+    public List<LoanResponseDTO> getLoanByUserAndBorrowDateRange(Long userId, LocalDate startDate, LocalDate endDate) {
+        List<Loan> loans = loanRepository.findByUserIdAndBorrowDateBetween(userId, startDate, endDate);
+        return loans.stream().map(l -> new LoanResponseDTO(
+                l.getId(),
+                l.getUser().getId(),
+                l.getBook().getId(),
+                l.getBorrowDate(),
+                l.getReturnDate(),
+                l.getActive()
+        )).collect(Collectors.toList());
+    }
+
+    public List<LoanResponseDTO> getLoansActiveByBook(Long bookId) {
+        List<Loan> loans = loanRepository.findByBookAndActive(bookId);
+        return loans.stream().map(l -> new LoanResponseDTO(
+                l.getId(),
+                l.getUser().getId(),
+                l.getBook().getId(),
+                l.getBorrowDate(),
+                l.getReturnDate(),
+                l.getActive()
+        )).collect(Collectors.toList());
+    }
 }

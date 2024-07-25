@@ -42,4 +42,13 @@ public class UserService {
                 user.getEmail()
         )).collect(Collectors.toList());
     }
+
+    public List<UserResponseDTO> getUsersBySpecificBook(Integer bookId) {
+        List<User> usersFound = userRepository.getUsersBySpecificBook(bookId);
+        return usersFound.stream().map(user -> new UserResponseDTO(
+                user.getId(),
+                user.getName(),
+                user.getEmail()
+        )).collect(Collectors.toList());
+    }
 }
