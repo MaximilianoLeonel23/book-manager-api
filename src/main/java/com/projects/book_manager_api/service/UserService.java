@@ -33,4 +33,13 @@ public class UserService {
                 user.getEmail()
         )).collect(Collectors.toList());
     }
+
+    public List<UserResponseDTO> getUsersByNumberOfLoans(Integer numberLoans) {
+        List<User> usersFound = userRepository.getUsersByNumberOfLoans(numberLoans);
+        return usersFound.stream().map(user -> new UserResponseDTO(
+                user.getId(),
+                user.getName(),
+                user.getEmail()
+        )).collect(Collectors.toList());
+    }
 }

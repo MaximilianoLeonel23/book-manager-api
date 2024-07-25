@@ -29,4 +29,16 @@ public class UserController {
             return ResponseEntity.ok(userList);
         }
     }
+
+    @GetMapping("/byNumberOfLoans")
+    public ResponseEntity<List<UserResponseDTO>> getUsersByNumberOfLoans(
+            @RequestParam Integer numberLoans
+    ) {
+        List<UserResponseDTO> userList = userService.getUsersByNumberOfLoans(numberLoans);
+        if (userList.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(userList);
+        }
+    }
 }

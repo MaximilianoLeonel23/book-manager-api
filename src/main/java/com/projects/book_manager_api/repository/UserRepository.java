@@ -2,6 +2,7 @@ package com.projects.book_manager_api.repository;
 
 import com.projects.book_manager_api.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByNameContainingAndEmailContaining(String name, String email);
 
+    @Query("SELECT u FROM User u WHERE (SELECT COUNT(l) from Loan l WHERE l.user.id = u.id) >= :numberLoans")
+    List<User> getUsersByNumberOfLoans(Integer numberLoans);
 }
